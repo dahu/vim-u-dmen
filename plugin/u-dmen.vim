@@ -102,7 +102,7 @@ function! s:UDmenFind()
   call add(find_paths, current_path)
   let find_paths = filter(find_paths, 'v:val != ""')
   let find_paths = UniqMap(find_paths, 'v:val')
-  let path = system("find " . join(find_paths, " ") . " -name '.git' -prune -o -print | sort | " . dmenu_cmd)
+  let path = system("find " . join(find_paths, " ") . " -name '.git' -prune -o -print | sort -u | " . dmenu_cmd)
   if path != ""
     exe "e " . path
   endif
