@@ -36,17 +36,11 @@ if !exists('g:somevar')
   let g:somevar = 0
 endif
 
-" UniqMap Library {{{1
-" Original Code by Houl
-" Refactored by Barry Arthur, 20 Apr 2012
+" Private Functions: {{{1
 
-" UniqMapFirst({list}, {map-expr})
-"
-" Remove duplicates from {list}, after applying {map-expr} (see :h map()).
-" The instance with the lowest index is kept.
-"
-function! UniqMapFirst(list, mapexpr) "{{{
-  let mlist = map(copy(a:list), a:mapexpr)
+" Remove duplicates from a list
+function! s:Uniq(list) "{{{1
+  let mlist = copy(a:list)
   let idx = len(a:list) - 1
   while idx >= 1
     if index(mlist, mlist[idx]) < idx
@@ -57,38 +51,12 @@ function! UniqMapFirst(list, mapexpr) "{{{
   return a:list
 endfunction "}}}
 
-" UniqMapLast({list}, {map-expr})
-"
-" Remove duplicates from {list}, after applying {map-expr} (see :h map()).
-" The instance with the highest index is kept.
-"
-function! UniqMapLast(list, mapexpr) "{{{
-  return reverse(UniqMapFirst(reverse(a:list), a:mapexpr))
-endfunction "}}}
-
-" UniqMap({list}, {map-expr}[, {keep-last}])
-"
-" Remove duplicates from {list}, after applying {map-expr} (see :h map()).
-" The instance with the lowest index is kept, unless {keep-last} is non-zero.
-"
-function! UniqMap(list, mapexpr, ...) "{{{
-  if a:0 >= 1 && a:1
-    return UniqMapLast(a:list, a:mapexpr)
-  else
-    return UniqMapFirst(a:list, a:mapexpr)
-  endif
-endfunction "}}}
-"}}}1
-
-" Private Functions: {{{1
-
-function s:UDmenDmenu(...)
-  return "dmenu -l 25 -p 'F:' -i"
+function s:UDmenDmenu(prompt)
+  return "dmenu -l 25 -i -p '" . a:prompt . ":'"
 endfunction
 
-function! s:UDmenFind()
-  let dmenu_cmd = s:UDmenDmenu()
-  let pathlist = split(&path, '\\\@<!,')
+function s:UDmenFindInPath(path, dmenu_cmd)
+  let pathlist = split(a:path, '\\\@<!,')
   let buffer_path = ''
   let current_path = ''
   if index(pathlist, '.') != -1
@@ -97,19 +65,26 @@ function! s:UDmenFind()
   if index(pathlist, '') != -1
     let current_path = getcwd()
   endif
+  " construct find_paths with absolute paths, removing blanks and duplicates
   let find_paths = filter(pathlist, 'v:val != "."')
   call add(find_paths, buffer_path)
   call add(find_paths, current_path)
-  let find_paths = filter(find_paths, 'v:val != ""')
-  let find_paths = UniqMap(find_paths, 'v:val')
-  let path = system("find " . join(find_paths, " ") . " -name '.git' -prune -o -print | sort -u | " . dmenu_cmd)
-  if path != ""
-    exe "e " . path
+  let find_paths = s:Uniq(filter(find_paths, 'v:val != ""'))
+  " call dmenu with uniqed find list of all paths, ignoring git files
+  " TODO: This should allow for user-specifiable ignores and a broader default
+  return system("find " . join(find_paths, " ") . " -name '.git' -prune -o -print | sort -u | " . a:dmenu_cmd)
+endfunction
+
+function! s:UDmenFind()
+  let dmenu_cmd = s:UDmenDmenu('Find')
+  let file = s:UDmenFindInPath(&path, dmenu_cmd)
+  if file != ""
+    exe "e " . file
   endif
 endfunction
 
 function! s:UDmenCD()
-  let dmenu_cmd = s:UDmenDmenu()
+  let dmenu_cmd = s:UDmenDmenu('CD')
   let path = system(dmenu_cmd . " < ~/.vim/dirs")
   if path != ""
     exe "cd " . path
