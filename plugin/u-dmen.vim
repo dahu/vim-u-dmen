@@ -92,11 +92,23 @@ function! s:UDmenCD()
   endif
 endfunction
 
+function! s:UDmenTOC()
+  let dmenu_cmd = s:UDmenDmenu('TOC')
+  let old_search = @/
+  let toc_ents = join(vimple#redir('g/^\s*function!\?/'), "\n")
+  let @/ = old_search
+  let entry = system("echo " . shellescape(toc_ents) . " |" . dmenu_cmd)
+  if entry != ''
+    exe split(entry, " ")[0]
+  endif
+endfunction
+
 " Public Interface: {{{1
 
 " Maps: {{{1
 nnoremap <Plug>u-dmen_find :call <SID>UDmenFind()<CR>
 nnoremap <Plug>u-dmen_cd   :call <SID>UDmenCD()<CR>
+nnoremap <Plug>u-dmen_toc  :call <SID>UDmenTOC()<CR>
 
 if !hasmapto('<Plug>u-dmen_find')
   nmap <silent> <leader>e <Plug>u-dmen_find
@@ -105,6 +117,11 @@ endif
 if !hasmapto('<Plug>u-dmen_cd')
   nmap <silent> <leader>cd <Plug>u-dmen_cd
 endif
+
+if !hasmapto('<Plug>u-dmen_toc')
+  nmap <silent> <leader>tc <Plug>u-dmen_toc
+endif
+
 
 " Commands: {{{1
 "command! -nargs=0 -bar MyCommand1 call <SID>MyScriptLocalFunction()
