@@ -103,6 +103,12 @@ function! s:UDmenTOC()
   endif
 endfunction
 
+function! s:UDmenStoreDirectory()
+  let dirs = readfile(expand("$HOME/.vim/dirs"))
+  call add(dirs, fnamemodify(expand('%'), ":p:h"))
+  call writefile(s:Uniq(sort(dirs)), expand("$HOME/.vim/dirs"))
+endfunction
+
 " Public Interface: {{{1
 
 " Maps: {{{1
@@ -128,10 +134,10 @@ endif
 "command! -nargs=0 -bar MyCommand2 call MyPublicFunction()
 
 " Autocommands {{{1
-"augroup UDmen
-  "au!
-  "au BufRead * call <SID>UDmenCollectDirectory()
-"augroup END
+augroup UDmen
+  au!
+  au BufRead * call <SID>UDmenStoreDirectory()
+augroup END
 
 " Teardown:{{{1
 "reset &cpo back to users setting

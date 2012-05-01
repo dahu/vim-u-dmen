@@ -4,4 +4,11 @@ Vim U Dmen!
 Dmenu awesomeness for Vim.
 
 * Fuzzily find files in your path.
-* Change directory.
+* Jump to content locations within your file.
+* Change to any previously visited directory.
+
+Requirements
+~~~~~~~~~~~~
+* linux-ish tools, like `sort`, `find`, `echo`
+* dmenu
+
