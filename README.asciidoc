@@ -9,6 +9,6 @@ Dmenu awesomeness for Vim.
 
 Requirements
 ~~~~~~~~~~~~
-* linux-ish tools, like `sort`, `find`, `echo`
-* dmenu
-
+* linux tools: `sort`, `find`, `echo`
+* http://tools.suckless.org/dmenu/[dmenu]
+* https://github.com/dahu/vimple[vimple]
