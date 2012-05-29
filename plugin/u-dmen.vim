@@ -83,6 +83,10 @@ function! s:UDmenFind()
   endif
 endfunction
 
+" TODO: Add lcd option
+" " change local cd
+" " TODO: remap this
+" nnoremap <leader>lcd  :lcd %:h<cr>:pwd<cr>
 function! s:UDmenCD()
   let dmenu_cmd = s:UDmenDmenu('CD')
   let path = system(dmenu_cmd . " < ~/.vim/dirs")

@@ -1,7 +1,7 @@
 Vim U Dmen!
 -----------
 
-Dmenu awesomeness for Vim.
+_Dmenu awesomeness for Vim._
 
 * Fuzzily find files in your path.
 * Jump to content locations within your file.
