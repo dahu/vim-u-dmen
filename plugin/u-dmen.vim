@@ -134,15 +134,15 @@ nnoremap <Plug>u-dmen_toc  :call <SID>UDmenTOC()<CR>
 nnoremap <Plug>u-dmen_grep :call <SID>UDmenGrep('')<CR>
 
 if !hasmapto('<Plug>u-dmen_find')
-  nmap <silent> <leader>e <Plug>u-dmen_find
+  nmap <silent> <leader>ge <Plug>u-dmen_find
 endif
 
 if !hasmapto('<Plug>u-dmen_cd')
-  nmap <silent> <leader>cd <Plug>u-dmen_cd
+  nmap <silent> <leader>gc <Plug>u-dmen_cd
 endif
 
 if !hasmapto('<Plug>u-dmen_toc')
-  nmap <silent> <leader>tc <Plug>u-dmen_toc
+  nmap <silent> <leader>gt <Plug>u-dmen_toc
 endif
 
 if !hasmapto('<Plug>u-dmen_grep')
