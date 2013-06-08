@@ -1,0 +1,86 @@
+*u-dmen.txt*	Plugin that uses dmenu for various list choices
+
+
+			VIM REFERENCE MANUAL	by Barry Arthur
+
+
+Help on using u-dmen                                                    *u-dmen*
+
+1. Introduction				|u-dmen-intro|
+2. Configuration			|u-dmen-configuration|
+3. Other					|u-dmen-other|
+
+==============================================================================
+ 1. INTRODUCTION                                                  *u-dmen-intro*
+
+Vim-U-Dmen provides dynamic menus for various tasks within Vim, like finding
+and editing files, jumping to important locations and changing directories.
+
+==============================================================================
+ 2. CONFIGURATION                                         *u-dmen-configuration*
+
+It's good to follow Vim's convention on help tags as described in
+|help-context|. Something like this: *:ExCommand* , *'option'* ,
+*i_CTRL-X_CTRL-K* , etc.
+
+Note: Variables used to modify a plugin behavior are usually surrounded by
+quotes as if they were options.
+
+|'u-dmen-option1'|		Does some magic.
+|'u-dmen-option2'|		Does some dark magic.
+
+
+------------------------------------------------------------------------------
+                                                              *'u-dmen-option1'*
+Values: numeric                                                              ~
+Default: 1                                                                   ~
+
+NOTE: Add a trailing tilde "~" at the end of the line to get that
+highlighting. With conceal enabled the tilde will be hidden.
+
+Detailed description of what this variable modifies.
+
+------------------------------------------------------------------------------
+                                                              *'u-dmen-option2'*
+Values: string                                                               ~
+Default: 'abc'                                                               ~
+
+Detailed description of what this variable modifies.
+
+==============================================================================
+ 3. OTHER                                                         *u-dmen-other*
+
+A block of indented text can be highlighted by ending the previous line with a
+greater than ">" character. The highlighting will end on a line with a less
+than character "<" as the first non-blank or any unindented line.
+
+Something like this: >
+
+	if a > b
+      echo a
+    else
+      echo b
+    endif
+<
+Note that the less than and greater than chars will hidden when conceal is
+enabled.
+
+The tilde can be used to highlight column headers:
+
+		Header1   Header2   Header3 ~
+		---------------------------
+        item      entry1    entry2
+
+This items will use the corresponding highlighting group:
+
+	*String	needs an actual tab before and after the '*String'
+	*Todo	needs an actual tab before and after the '*Todo'
+	*Error	needs an actual tab before and after the '*Error'
+
+There are some special cases that will be also highlighted:
+- <Anything>	<= Anything enclosed in <>.
+- {Another}		<= Anything enclosed in {}
+- CTRL-X		<= CTRL- followed by any char.
+
+ vim:tw=78:ts=8:ft=help:norl:
+
