@@ -51,11 +51,11 @@ function! s:Uniq(list) "{{{1
   return a:list
 endfunction "}}}
 
-function s:UDmenDmenu(prompt)
+function! s:UDmenDmenu(prompt)
   return "dmenu -l 25 -i -p '" . a:prompt . ":'"
 endfunction
 
-function s:UDmenFindInPath(path, dmenu_cmd)
+function! s:UDmenFindInPath(path, dmenu_cmd)
   let pathlist = split(a:path, '\\\@<!,')
   let buffer_path = ''
   let current_path = ''
@@ -107,7 +107,10 @@ function! s:UDmenGrep(default, ...)
   let matches = join(vimple#redir('g/' . pattern . '/p'), "\n")
   let @/ = old_search
   let dmenu_cmd = s:UDmenDmenu(prompt)
-  return system("echo " . shellescape(matches) . " |" . dmenu_cmd)
+  let match = system("echo " . shellescape(matches) . " |" . dmenu_cmd)
+  if len(match) > 0
+    exe split(match)[0]
+  endif
 endfunction
 
 function! s:UDmenTOC()
