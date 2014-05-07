@@ -152,10 +152,6 @@ if !hasmapto('<Plug>u-dmen_grep')
   nmap <silent> <leader>gg <Plug>u-dmen_grep
 endif
 
-" Commands: {{{1
-"command! -nargs=0 -bar MyCommand1 call <SID>MyScriptLocalFunction()
-"command! -nargs=0 -bar MyCommand2 call MyPublicFunction()
-
 " Autocommands {{{1
 augroup UDmen
   au!
@@ -167,4 +163,3 @@ augroup END
 let &cpo = s:save_cpo
 
 " vim: set sw=2 sts=2 et fdm=marker:
-
